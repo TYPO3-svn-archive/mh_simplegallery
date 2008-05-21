@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for plugin &quot;tx_mhsimplegallery_pi1&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+      <label index="link_to_gallery">Visit Galery</label>
+      <label index="error_noComments">No comments available.</label>
+      <label index="edit_categories_latest_image">Latest 3 pictures</label>
+		  <label index="edit_categories_name">Name</label>
+		  <label index="edit_categories_delete">Delete selected</label>
+		  <label index="edit_categories_confirm">Do you really want to delete the selected categories?</label>
+		  <label index="edit_categories_header1">Edit categories</label>
+		</languageKey>
+		
+		<languageKey index="de" type="array">
+		  <label index="link_to_gallery">Galerie besuchen</label>
+		  <label index="error_noComments">Keine Kommentare vorhanden.</label>
+		  <label index="edit_categories_latest_image">Die letzten 3 Bilder</label>
+		  <label index="edit_categories_name">Name</label>
+      <label index="edit_categories_delete">Auswahl löschen</label>
+      <label index="edit_categories_confirm">Möchten Sie wirklich diese Auswahl löschen?</label>
+      <label index="edit_categories_header1">Kategorien bearbeiten</label>
+		</languageKey>
+		
+	</data>
+</T3locallang>

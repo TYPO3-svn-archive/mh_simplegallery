@@ -1,0 +1,185 @@
+<!-- ###CATEGORIES### begin -->
+  <div class="tx_mhsimplegallery-catlist"> 
+    <!-- ###ITEMS### begin -->
+    <dl class="mhsimplegallery_listCategories">
+      <dt class="mhsimplegallery_catHeader">###NAME###</dt>
+      <dt class="mhsimplegallery_header">Coole Bilder:</dt>
+      <dd class="mhsimplegallery_center">###TOP_IMAGE###</dd>
+      <dt class="mhsimplegallery_header">Neue Bilder:</dt>
+      <dd class="mhsimplegallery_center">###LATEST_IMAGES###</dd>
+      <dt class="mhsimplegallery_header">Statistik:</dt>
+      <dd class="mhsimplegallery_text">Es sind <b>###STATS_COUNT_IMAGES###</b> Bilder in der Galerie vorhanden. Das letzte Bild wurde am <b>###STATS_LAST_IMAGE###</b> hinzugef&uuml;gt.</dd>
+      <dd class="mhsimplegallery_linkToGallery">###LINK_TO_GALLERY###</dd>
+    </dl>
+    <!-- ###ITEMS### end -->
+  </div>
+<!-- ###CATEGORIES### end -->
+
+
+<!-- ###LIST_IMAGES### begin -->
+<div class="tx_mhsimplegallery-listimages">
+  <h1>###CATEGORY_TITLE###</h1>
+  <p style="font-size:0.8em;"><b>Sortieren nach</b>: ###SORT###</p>
+  <!-- ###ITEMS### begin -->
+  <dl class="mhsimplegallery_listImages">
+    <dt class="mhsimplegallery_listName">###NAME### von ###USERINFO###</dt>
+    <dt class="mhsimplegallery_listImage">###IMAGE###</dt>
+    <dd class="mhsimplegallery_misc"><img src="typo3conf/ext/mh_simplegallery/res/date.gif" style="position:relative;top:3px;" /> ###DATE### <img src="typo3conf/ext/mh_simplegallery/res/comments.gif" style="position:relative;top:3px;" /> ###COMMENTS### ###RATING###</dd>
+    <!--<dd class="mhsimplegallery_desc">###DESC###</dd>-->
+  </dl>
+  <!-- ###ITEMS### end -->
+  <br style="clear:left;" />
+  ###PAGEBROWSER###
+</div>
+<!-- ###LIST_IMAGES### end -->
+
+
+<!-- ###SINGLE_IMAGE### begin -->
+<div class="tx_mhsimplegallery-singleimage">
+  <h2>###NAME### (###CATEGORY_TITLE###) ###RATING###</h2>
+  <p class="mhsimplegallery_singleImageInfo2"><b>Original</b>: ###IMAGE_DIMENSION### @ ###IMAGE_SIZE###KB</p>
+  <p align="center" style="font-size:0.8em;"><img src="typo3conf/ext/mh_simplegallery/res/images.gif" style="position:relative;top:3px;" /> ###BACK### - <img src="typo3conf/ext/mh_simplegallery/res/desc.gif" style="position:relative;top:3px;" /> <a href="#desc">Beschreibung lesen</a> - <img src="typo3conf/ext/mh_simplegallery/res/rate.gif" style="position:relative;top:3px;" /> <a href="#rate">Bild bewerten</a> - <img src="typo3conf/ext/mh_simplegallery/res/comments.gif" style="position:relative;top:3px;" /> <a href="#comments">Zu den Kommentaren</a> (###COMMENTS###)</p>
+  <div align="center"><a href="###IMAGE_LINK###" target="_blank">###IMAGE###</a></div>
+  <div class="mhsimplegallery_singleImageInfo">Am <b>###DATE###</b> hinzugef&uuml;gt von <b>###USERINFO###</b> - ###RATE###<a id="rate"></a></div>
+  <h2>Beschreibung</h2>
+  <p class="mhsimplegallery_singleImageDesc">(###USERINFO###)<a id="desc" name="desc"></a> ###DESC###</p>
+</div>
+<!-- ###SINGLE_IMAGE### end -->
+
+
+<!-- ###COMMENTS_LIST### begin -->
+  <h2>Kommentare <a name="comments"></a></h2>
+  <!-- ###ITEMS### start -->
+  <dl class="mhsimplegallery_listComments">
+    <dt class="mhsimplegallery_listName"><b>###NAME###</b> hat am ###DATE### geschrieben:</dt>
+    <dd class="mhsimplegallery_text">###TEXT###</dd>
+  </dl>
+  <!-- ###ITEMS### end -->
+  
+  <!-- ###NO_COMMENTS### start -->
+  <p>###TEXT###</p>
+  <!-- ###NO_COMMENTS### end -->
+  
+<!-- ###COMMENTS_LIST### end -->
+  
+
+<!-- ###COMMENT_FORM### begin -->
+###ERROR###
+<form method="post" action="">
+  <input type="hidden" name="formid" value="1" />
+  <fieldset>
+    <legend>Neuen Kommentar schreiben</legend>
+    
+    <label for="name">Name:</label>
+    ###NAME###
+    <br />
+    
+    <label for="desc">Nachricht</label>
+    <textarea name="mh_simplegallery_text" id="desc" cols="30" rows="8">###TEXT###</textarea>
+    <br />
+    
+    ###CAPTCHA###
+    
+    <p><input type="submit" value="Abschicken" /></p>
+  </fieldset>
+</form>
+<!-- ###COMMENT_FORM### end -->
+
+
+<!-- ###RATE_FORM### begin -->
+<form method="post" action="" id="formRating" name="formRating" style="display:inline; padding:0;margin:0;">
+  <input type="hidden" name="referee" value="###REFEREE###"/>
+  <select name="rating" size="1" onchange="javascript:document.formRating.submit();">
+    <option value="0" selected="1">Bild bewerten ...</option>
+    <option value="1">1 Stern ... Schlecht</option>
+    <option value="2">2 Sterne ... Ganz okay</option>
+    <option value="3">3 Sterne ... Mittelm&auml;&szlig;ig</option>
+    <option value="4">4 Sterne ... Gut</option>
+    <option value="5">5 Sterne ... Sehr gut!</option>
+  </select>
+  <noscript><input type="submit" value="Ok" /></noscript>
+</form>
+<!-- ###RATE_FORM### end -->
+
+
+<!-- ###RATE_FORM_ALLREADY_RATED### begin -->
+  <span style="font-style:oblique;">Du hast schon eine Bewertung abgegeben.</span>
+<!-- ###RATE_FORM_ALLREADY_RATED### end -->
+
+
+<!-- ###FEFORM### begin -->
+<form method="post" action="" enctype='multipart/form-data'>
+  <input type="hidden" name="formid" value="1" />
+  <fieldset>
+    <legend>Neues Bild hinzuf&uuml;gen</legend>
+    
+    <label for="title">Titel:</label>
+    <input type="text" name="mh_simplegallery_postVar[title]" id="title" size="40" />
+    <br />
+    
+    <label for="title">Kategorie:</label>
+    ###CATEGORY###
+    <br />
+    
+    <label for="desc">Beschreibung</label>
+    <textarea name="mh_simplegallery_postVar[desc]" id="desc" cols="30" rows="8"></textarea>
+    <br />
+    <label for="image">Datei:</label>
+    <input type="file" name="image" id="image" />
+    <br />
+    <small>Das Bild darf der Gr&ouml;&szlig;e von ###MAX_HEIGHT###px H&ouml;he und ###MAX_WIDTH###px Breite nicht &uuml;berschreiten.</small>
+    <p><input type="submit" value="Abschicken" /></p>
+  </fieldset>
+</form>
+<!-- ###FEFORM### end -->
+
+
+<!-- ###FEFORM_SUCCESS### begin -->
+<div class="tx_mhsimplegallery-feformsuccess">
+  <h2>Bild erfolgreich hochgeladen</h2>
+  <p>Dein Bild wurde in die Datenbank eingef&uuml;gt</p>
+</div>
+<!-- ###FEFORM_SUCCESS### end -->
+
+
+<!-- ###FEFORM_ERROR### begin -->
+<div class="tx_mhsimplegallery-feformerror">
+  <h2>Es ist ein Fehler aufgetreten!</h2>
+  <p>Sie haben entweder nicht alle Felder ausgef&uuml;llt oder das Bild entsprach nicht unseren Richtlinien, bitte beachten Sie die Hinweise im Formular und benutzen Ihren "Zur&uuml;ck"-Button im Browser um das Formular erneut abzuschicken.</p>
+</div>
+<!-- ###FEFORM_ERROR### end -->
+
+
+
+<!-- ###EDIT_CATEGORIES### begin -->
+<h1>###LANG_EDIT_CATEGORIES_HEADER1###</h1>
+
+<form method="post" action="" name="delete" onsubmit="return confirm('###LANG_EDIT_CATEGORIES_CONFIRM###');">
+<table cellpadding="5" cellspacing="1" class="mhsimplegallery-table">
+  <tr>
+    <th>###LANG_EDIT_CATEGORIES_NAME###</th>
+    <th>###LANG_EDIT_CATEGORIES_LATEST_IMAGES###</th>
+    <th></th>
+  </tr>
+<!-- ###ITEMS### begin -->
+  <tr>
+    <td>###NAME###</td>
+    <td>###LATEST_IMAGES###</td>
+    <td><input type="checkbox" name="mh_simplegallery_delCat[###UID###]" value="1" /></td>
+  </tr>
+  <!-- ###ITEMS### end -->
+  <tr>
+    <td colspan="3" style="text-align:right;"><input type="submit" value="###LANG_EDIT_CATEGORIES_DELETE###" /></td>
+  </tr>
+</table>
+</form>
+
+<!-- ###EDIT_CATEGORIES### end -->
+
+
+
+<!-- ###ERROR### begin -->
+<div class="tx_mhsimplegallery-error">
+  <p><b>Fehler</b>: ###TEXT###</p>
+</div>
+<!-- ###ERROR### end -->

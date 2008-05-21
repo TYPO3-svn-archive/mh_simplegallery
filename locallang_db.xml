@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>database</type>
+		<description>Language labels for database tables/fields belonging to extension 'mh_simplegallery'</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="tx_mhsimplegallery_categories">Categories (Gallery)</label>
+			<label index="tx_mhsimplegallery_categories.name">Name</label>
+			<label index="tx_mhsimplegallery_categories.path">Path to Gallery</label>
+			<label index="tx_mhsimplegallery_categories.owner">Owner of the Gallery</label>
+			<label index="tx_mhsimplegallery_categories.public">Public Gallery</label>
+			<label index="tx_mhsimplegallery_images">Images (Gallery)</label>
+			<label index="tx_mhsimplegallery_images.category">Category</label>
+			<label index="tx_mhsimplegallery_images.title">Title</label>
+			<label index="tx_mhsimplegallery_images.describtion">Describtion</label>
+			<label index="tx_mhsimplegallery_images.image">Image</label>
+			<label index="tx_mhsimplegallery_images.comments">Comments</label>
+			<label index="tx_mhsimplegallery_images.hits">Hits</label>
+			<label index="tx_mhsimplegallery_comments">Comments (Gallery)</label>
+			<label index="tx_mhsimplegallery_comments.image">Image</label>
+			<label index="tx_mhsimplegallery_comments.title">Titel</label>
+			<label index="tx_mhsimplegallery_comments.text">Text</label>
+			<label index="tt_content.list_type_pi1">Simple Gallery</label>
+			<label index="tt_content.pi_flexform.sheet_general">General settings</label>
+			<label index="tt_content.pi_flexform.what_to_display">Display:</label>
+			<label index="tt_content.pi_flexform.template_file">Template:</label>
+			<label index="tt_content.pi_flexform.single_pid">PID with the SINGLE-View:</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="tx_mhsimplegallery_categories">Kategorien (Galerie)</label>
+			<label index="tx_mhsimplegallery_categories.name">Name</label>
+			<label index="tx_mhsimplegallery_categories.path">Pfad zur Galerie</label>
+			<label index="tx_mhsimplegallery_categories.owner">Besitzer der Galerie</label>
+			<label index="tx_mhsimplegallery_categories.public">Öffentliche Galerie</label>
+			<label index="tx_mhsimplegallery_images">Bilder (Galerie)</label>
+			<label index="tx_mhsimplegallery_images.category">Kategorie</label>
+			<label index="tx_mhsimplegallery_images.title">Titel</label>
+			<label index="tx_mhsimplegallery_images.describtion">Beschreibung</label>
+			<label index="tx_mhsimplegallery_images.image">Bild</label>
+			<label index="tx_mhsimplegallery_images.comments">Kommentare</label>
+			<label index="tx_mhsimplegallery_images.hits">Hits</label>
+			<label index="tx_mhsimplegallery_comments">Kommentare (Galerie)</label>
+			<label index="tx_mhsimplegallery_comments.image">Bild</label>
+			<label index="tx_mhsimplegallery_comments.title">Titel</label>
+			<label index="tx_mhsimplegallery_comments.text">Text</label>
+			<label index="tt_content.list_type_pi1">Einfache Galerie</label>
+			<label index="tt_content.pi_flexform.sheet_general">Allgemeine Einstellungen</label>
+			<label index="tt_content.pi_flexform.category_selection">Kategorieauswahl:</label>
+			<label index="tt_content.pi_flexform.what_to_display">Ansicht:</label>
+			<label index="tt_content.pi_flexform.template_file">Template:</label>
+			<label index="tt_content.pi_flexform.single_pid">PID zur SINGLE-View:</label>
+		</languageKey>
+	</data>
+</T3locallang>
