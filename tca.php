@@ -1,52 +1,15 @@
 <?php
 if (!defined ('TYPO3_MODE')) 	die ('Access denied.');
 
-$TCA["tx_mhsimplegallery_categories"] = array (
-	"ctrl" => $TCA["tx_mhsimplegallery_categories"]["ctrl"],
+$TCA["tx_mhbranchenbuch_firmen"]["ctrl"]["requestUpdate"] = 'bundesland,landkreis';
+
+$TCA["tx_mhbranchenbuch_firmen"] = array (
+	"ctrl" => $TCA["tx_mhbranchenbuch_firmen"]["ctrl"],
 	"interface" => array (
-		"showRecordFieldList" => "sys_language_uid,l18n_parent,l18n_diffsource,hidden,fe_group,cruser_id,name,path,public"
+		"showRecordFieldList" => "hidden,starttime,endtime,cruser_id,kategorie,bundesland,landkreis,ort,firma,typ,adresse,telefon,fax,handy,link,video,email,custom1,custom2,custom3,bild,keywords,detail,map_lat,map_lng,hit_count,job"
 	),
-	"feInterface" => $TCA["tx_mhsimplegallery_categories"]["feInterface"],
+	"feInterface" => $TCA["tx_mhbranchenbuch_firmen"]["feInterface"],
 	"columns" => array (
-  	't3ver_label' => array (        
-      'label'  => 'LLL:EXT:lang/locallang_general.xml:LGL.versionLabel',
-      'config' => array (
-        'type' => 'input',
-        'size' => '30',
-        'max'  => '30',
-      )
-    ),
-    'sys_language_uid' => array (        
-      'exclude' => 1,
-      'label'  => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
-      'config' => array (
-        'type'                => 'select',
-        'foreign_table'       => 'sys_language',
-        'foreign_table_where' => 'ORDER BY sys_language.title',
-        'items' => array(
-          array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
-          array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0)
-        )
-      )
-    ),
-    'l18n_parent' => array (        
-      'displayCond' => 'FIELD:sys_language_uid:>:0',
-      'exclude'     => 1,
-      'label'       => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
-      'config'      => array (
-        'type'  => 'select',
-        'items' => array (
-          array('', 0),
-        ),
-        'foreign_table'       => 'tx_test_xy',
-        'foreign_table_where' => 'AND tx_test_xy.pid=###CURRENT_PID### AND tx_test_xy.sys_language_uid IN (-1,0)',
-      )
-    ),
-    'l18n_diffsource' => array (        
-      'config' => array (
-         'type' => 'passthrough'
-      )
-    ),
 		'hidden' => array (		
 			'exclude' => 1,
 			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
@@ -55,23 +18,37 @@ $TCA["tx_mhsimplegallery_categories"] = array (
 				'default' => '0'
 			)
 		),
-		'fe_group' => array (		
+		'starttime' => array (		
 			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.fe_group',
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
 			'config'  => array (
-				'type'  => 'select',
-				'items' => array (
-					array('', 0),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.hide_at_login', -1),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.any_login', -2),
-					array('LLL:EXT:lang/locallang_general.xml:LGL.usergroups', '--div--')
-				),
-				'foreign_table' => 'fe_groups'
+				'type'     => 'input',
+				'size'     => '8',
+				'max'      => '20',
+				'eval'     => 'date',
+				'default'  => '0',
+				'checkbox' => '0'
+			)
+		),
+		'endtime' => array (		
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
+			'config'  => array (
+				'type'     => 'input',
+				'size'     => '8',
+				'max'      => '20',
+				'eval'     => 'date',
+				'checkbox' => '0',
+				'default'  => '0',
+				'range'    => array (
+					'upper' => mktime(0, 0, 0, 12, 31, 2020),
+					'lower' => mktime(0, 0, 0, date('m')-1, date('d'), date('Y'))
+				)
 			)
 		),
 		"cruser_id" => Array (		
 			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_categories.owner",		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.owner",		
 			"config" => Array (
 				"type" => "select",
 				"items" => Array (
@@ -84,47 +61,296 @@ $TCA["tx_mhsimplegallery_categories"] = array (
 				"maxitems" => 1,
 			)
 		),
-		"name" => Array (		
+		"kategorie" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.kategorie",		
+			"config" => Array (
+				"type" => "select",	
+				"foreign_table" => "tx_mhbranchenbuch_kategorien",	
+				"foreign_table_where" => "AND tx_mhbranchenbuch_kategorien.pid=###STORAGE_PID### ORDER BY tx_mhbranchenbuch_kategorien.name",	
+				"size" => 10,	
+				"minitems" => 0,
+				"maxitems" => 99,	
+				"wizards" => Array(
+					"_PADDING" => 2,
+					"_VERTICAL" => 1,
+					"add" => Array(
+						"type" => "script",
+						"title" => "Create new record",
+						"icon" => "add.gif",
+						"params" => Array(
+							"table"=>"tx_mhbranchenbuch_kategorien",
+							"pid" => "###CURRENT_PID###",
+							"setValue" => "prepend"
+						),
+						"script" => "wizard_add.php",
+					),
+					"list" => Array(
+						"type" => "script",
+						"title" => "List",
+						"icon" => "list.gif",
+						"params" => Array(
+							"table"=>"tx_mhbranchenbuch_kategorien",
+							"pid" => "###CURRENT_PID###",
+						),
+						"script" => "wizard_list.php",
+					),
+					"edit" => Array(
+						"type" => "popup",
+						"title" => "Edit",
+						"script" => "wizard_edit.php",
+						"popup_onlyOpenIfSelected" => 1,
+						"icon" => "edit2.gif",
+						"JSopenParams" => "height=350,width=580,status=0,menubar=0,scrollbars=1",
+					),
+				),
+			)
+		),
+    "bundesland" => Array (		
 			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_categories.name",		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_ort.bundesland",		
+			"config" => Array (
+				"type" => "select",
+				"items" => Array (
+            Array("",0),
+        ),
+				"foreign_table" => "tx_mhbranchenbuch_bundesland",	
+				"foreign_table_where" => "ORDER BY tx_mhbranchenbuch_bundesland.name",	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),
+		"landkreis" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_landkreis.name",		
+			"config" => Array (
+				"type" => "select",
+				"items" => Array (
+            Array("",0),
+        ),
+				"foreign_table" => "tx_mhbranchenbuch_landkreis",	
+				"foreign_table_where" => "AND tx_mhbranchenbuch_landkreis.bundesland=###REC_FIELD_bundesland### ORDER BY tx_mhbranchenbuch_landkreis.name",	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),
+    "ort" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_ort.name",		
+			"config" => Array (
+				"type" => "select",
+				"items" => Array (
+            Array("",0),
+        ),
+				"foreign_table" => "tx_mhbranchenbuch_ort",	
+				"foreign_table_where" => "AND tx_mhbranchenbuch_ort.landkreis=###REC_FIELD_landkreis### ORDER BY tx_mhbranchenbuch_ort.name",	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),
+		"firma" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.firma",		
 			"config" => Array (
 				"type" => "input",	
 				"size" => "30",	
 				"eval" => "required",
 			)
 		),
-		"path" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_categories.path",		
+		"typ" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ",		
+			"config" => Array (
+				"type" => "select",
+				"items" => Array (
+				  Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.7", "7"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.0", "0"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.1", "1"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.2", "2"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.3", "3"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.4", "4"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.5", "5"),
+					Array("LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.typ.I.6", "6"),
+				),
+				"size" => 1,	
+				"maxitems" => 1,
+			)
+		),
+		"adresse" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.adresse",		
+			"config" => Array (
+				"type" => "text",
+				"cols" => "30",	
+				"rows" => "5",
+			)
+		),
+		"telefon" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.telefon",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"fax" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.fax",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+    "handy" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.handy",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"link" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.link",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"video" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.video",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"email" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.email",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"custom1" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.custom1",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"custom2" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.custom2",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"custom3" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.custom3",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"bild" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.bild",		
+			"config" => Array (
+				"type" => "group",
+				"internal_type" => "file",
+				"allowed" => "gif,png,jpeg,jpg",	
+				"max_size" => 1000,	
+				"uploadfolder" => "uploads/tx_mhbranchenbuch",
+				"show_thumbs" => 1,	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),	
+		"keywords" => Array (	
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.keywords",		
+			"config" => Array (
+				"type" => "text",
+				"cols" => "30",	
+				"rows" => "5",
+			)
+		),
+		
+		"detail" => Array (
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.detail",		
+			"config" => Array (
+				"type" => "text",
+				"cols" => "30",
+				"rows" => "5",
+				"wizards" => Array(
+					"_PADDING" => 2,
+					"RTE" => array(
+						"notNewRecords" => 1,
+						"RTEonly" => 1,
+						"type" => "script",
+						"title" => "Full screen Rich Text Editing|Formatteret redigering i hele vinduet",
+						"icon" => "wizard_rte2.gif",
+						"script" => "wizard_rte.php",
+					),
+				),
+			)
+		),
+		"map_lat" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lat",		
 			"config" => Array (
 				"type" => "input",	
 				"size" => "30",	
 			)
 		),
-		"public" => Array (        
+		"map_lng" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lng",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
+    "job" => Array (        
       "exclude" => 1,        
-      "label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_categories.public",        
+      "label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.job",        
       "config" => Array (
           "type" => "check",
       )
     ),
+	 "hit_count" => Array (	
+			"exclude" => 1,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.hit_count",		
+			"config" => Array (
+				"type" => "none",
+			)
+		),
 	),
 	"types" => array (
-		"0" => array("showitem" => "sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1;;1-1-1, cruser_id, name, path, public")
+		"0" => array("showitem" => "hidden;;1;;1-1-1, cruser_id, kategorie, bundesland, landkreis, ort, firma, typ, adresse, telefon, fax, handy, link, video, email, custom1, custom2, custom3, bild, keywords, detail;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/mh_branchenbuch/rte/], map_lat, map_lng, hit_count, job")
 	),
 	"palettes" => array (
-		"1" => array("showitem" => "fe_group")
+		"1" => array("showitem" => "starttime, endtime")
 	)
 );
 
 
-
-$TCA["tx_mhsimplegallery_images"] = array (
-	"ctrl" => $TCA["tx_mhsimplegallery_images"]["ctrl"],
+$TCA["tx_mhbranchenbuch_kategorien"] = array (
+	"ctrl" => $TCA["tx_mhbranchenbuch_kategorien"]["ctrl"],
 	"interface" => array (
-		"showRecordFieldList" => "hidden,starttime,endtime,fe_group,category,title,describtion,image,comments,hits,rating"
+		"showRecordFieldList" => "hidden,fe_group,name,root_uid,detail,image,description"
 	),
-	"feInterface" => $TCA["tx_mhsimplegallery_images"]["feInterface"],
+	"feInterface" => $TCA["tx_mhbranchenbuch_kategorien"]["feInterface"],
 	"columns" => array (
 		'hidden' => array (		
 			'exclude' => 1,
@@ -132,34 +358,6 @@ $TCA["tx_mhsimplegallery_images"] = array (
 			'config'  => array (
 				'type'    => 'check',
 				'default' => '0'
-			)
-		),
-		'starttime' => array (		
-			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
-			'config'  => array (
-				'type'     => 'input',
-				'size'     => '8',
-				'max'      => '20',
-				'eval'     => 'date',
-				'default'  => '0',
-				'checkbox' => '0'
-			)
-		),
-		'endtime' => array (		
-			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
-			'config'  => array (
-				'type'     => 'input',
-				'size'     => '8',
-				'max'      => '20',
-				'eval'     => 'date',
-				'checkbox' => '0',
-				'default'  => '0',
-				'range'    => array (
-					'upper' => mktime(0, 0, 0, 12, 31, 2020),
-					'lower' => mktime(0, 0, 0, date('m')-1, date('d'), date('Y'))
-				)
 			)
 		),
 		'fe_group' => array (		
@@ -176,29 +374,48 @@ $TCA["tx_mhsimplegallery_images"] = array (
 				'foreign_table' => 'fe_groups'
 			)
 		),
-		"category" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_images.category",		
-			"config" => Array (
-				"type" => "select",	
-				"foreign_table" => "tx_mhsimplegallery_categories",	
-				"foreign_table_where" => "ORDER BY tx_mhsimplegallery_categories.uid",	
-				"size" => 10,	
-				"minitems" => 0,
-				"maxitems" => 100,
-			)
-		),
-		"title" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_images.title",		
+		"name" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_kategorien.name",		
 			"config" => Array (
 				"type" => "input",	
-				"size" => "30",
+				"size" => "30",	
+				"eval" => "required",
 			)
 		),
-		"describtion" => Array (		
+		"root_uid" => Array (		
 			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_images.describtion",		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_kategorien.root_uid",		
+			"config" => Array (
+				"type" => "select",
+				"items" => Array (
+            Array("",0),
+        ),
+				"foreign_table" => "tx_mhbranchenbuch_kategorien",	
+				"foreign_table_where" => "ORDER BY tx_mhbranchenbuch_kategorien.name",	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),
+		"image" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_kategorien.image",		
+			"config" => Array (
+				"type" => "group",
+				"internal_type" => "file",
+				"allowed" => "gif,png,jpeg,jpg",	
+				"max_size" => 1000,	
+				"uploadfolder" => "uploads/tx_mhbranchenbuch",
+				"show_thumbs" => 1,	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),	
+		"description" => Array (
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_kategorien.description",		
 			"config" => Array (
 				"type" => "text",
 				"cols" => "30",
@@ -216,57 +433,110 @@ $TCA["tx_mhsimplegallery_images"] = array (
 				),
 			)
 		),
-		"image" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_images.image",		
-			"config" => Array (
-				"type" => "group",
-				"internal_type" => "file",
-				"allowed" => $GLOBALS["TYPO3_CONF_VARS"]["GFX"]["imagefile_ext"],	
-				"max_size" => 1000,	
-				"uploadfolder" => "uploads/tx_mhsimplegallery",
-				"show_thumbs" => 1,	
-				"size" => 1,	
-				"minitems" => 0,
-				"maxitems" => 1,
-			)
-		),
-		"comments" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_images.comments",		
-			"config" => Array (
-				"type" => "none",
-			)
-		),
-		"hits" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_images.hits",		
-			"config" => Array (
-				"type" => "none",
-			)
-		),
-		"rating" => Array (		
-			"config" => Array (
-				"type" => "passthrough",
-			)
-		),
 	),
 	"types" => array (
-		"0" => array("showitem" => "hidden;;1;;1-1-1, category, title;;;;2-2-2, describtion;;;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts];3-3-3, image, comments, hits, rating")
+		"0" => array("showitem" => "hidden;;1;;1-1-1, name, root_uid, image, description;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/mh_branchenbuch/rte/]")
 	),
 	"palettes" => array (
-		"1" => array("showitem" => "starttime, endtime, fe_group")
+		"1" => array("showitem" => "fe_group")
 	)
 );
 
 
-
-$TCA["tx_mhsimplegallery_comments"] = array (
-	"ctrl" => $TCA["tx_mhsimplegallery_comments"]["ctrl"],
+$TCA["tx_mhbranchenbuch_bundesland"] = array (
+	"ctrl" => $TCA["tx_mhbranchenbuch_bundesland"]["ctrl"],
 	"interface" => array (
-		"showRecordFieldList" => "hidden,starttime,endtime,image,title,text"
+		"showRecordFieldList" => "sys_language_uid,l18n_parent,l18n_diffsource,hidden,name,map_lat,map_lng"
 	),
-	"feInterface" => $TCA["tx_mhsimplegallery_comments"]["feInterface"],
+	"feInterface" => $TCA["tx_mhbranchenbuch_bundesland"]["feInterface"],
+	"columns" => array (
+		't3ver_label' => array (		
+			'label'  => 'LLL:EXT:lang/locallang_general.xml:LGL.versionLabel',
+			'config' => array (
+				'type' => 'input',
+				'size' => '30',
+				'max'  => '30',
+			)
+		),
+		'sys_language_uid' => array (		
+			'exclude' => 1,
+			'label'  => 'LLL:EXT:lang/locallang_general.xml:LGL.language',
+			'config' => array (
+				'type'                => 'select',
+				'foreign_table'       => 'sys_language',
+				'foreign_table_where' => 'ORDER BY sys_language.title',
+				'items' => array(
+					array('LLL:EXT:lang/locallang_general.xml:LGL.allLanguages', -1),
+					array('LLL:EXT:lang/locallang_general.xml:LGL.default_value', 0)
+				)
+			)
+		),
+		'l18n_parent' => array (		
+			'displayCond' => 'FIELD:sys_language_uid:>:0',
+			'exclude'     => 1,
+			'label'       => 'LLL:EXT:lang/locallang_general.xml:LGL.l18n_parent',
+			'config'      => array (
+				'type'  => 'select',
+				'items' => array (
+					array('', 0),
+				),
+				'foreign_table'       => 'tx_mhbranchenbuch_bundesland',
+				'foreign_table_where' => 'AND tx_mhbranchenbuch_bundesland.pid=###CURRENT_PID### AND tx_mhbranchenbuch_bundesland.sys_language_uid IN (-1,0)',
+			)
+		),
+		'l18n_diffsource' => array (		
+			'config' => array (
+				'type' => 'passthrough'
+			)
+		),
+		'hidden' => array (		
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config'  => array (
+				'type'    => 'check',
+				'default' => '0'
+			)
+		),
+		"name" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_bundesland.name",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+				"eval" => "required",
+			)
+		),
+		"map_lat" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lat",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
+		"map_lng" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lng",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
+	),
+	"types" => array (
+		"0" => array("showitem" => "sys_language_uid;;;;1-1-1, l18n_parent, l18n_diffsource, hidden;;1, name, map_lat, map_lng")
+	),
+	"palettes" => array (
+		"1" => array("showitem" => "")
+	)
+);
+
+$TCA["tx_mhbranchenbuch_landkreis"] = array (
+	"ctrl" => $TCA["tx_mhbranchenbuch_landkreis"]["ctrl"],
+	"interface" => array (
+		"showRecordFieldList" => "hidden,bundesland,name,detail,map_lat,map_lng"
+	),
+	"feInterface" => $TCA["tx_mhbranchenbuch_landkreis"]["feInterface"],
 	"columns" => array (
 		'hidden' => array (		
 			'exclude' => 1,
@@ -276,57 +546,29 @@ $TCA["tx_mhsimplegallery_comments"] = array (
 				'default' => '0'
 			)
 		),
-		'starttime' => array (		
-			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.starttime',
-			'config'  => array (
-				'type'     => 'input',
-				'size'     => '8',
-				'max'      => '20',
-				'eval'     => 'date',
-				'default'  => '0',
-				'checkbox' => '0'
-			)
-		),
-		'endtime' => array (		
-			'exclude' => 1,
-			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.endtime',
-			'config'  => array (
-				'type'     => 'input',
-				'size'     => '8',
-				'max'      => '20',
-				'eval'     => 'date',
-				'checkbox' => '0',
-				'default'  => '0',
-				'range'    => array (
-					'upper' => mktime(0, 0, 0, 12, 31, 2020),
-					'lower' => mktime(0, 0, 0, date('m')-1, date('d'), date('Y'))
-				)
-			)
-		),
-		"image" => Array (		
+		"bundesland" => Array (		
 			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_comments.image",		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_ort.bundesland",		
 			"config" => Array (
 				"type" => "select",	
-				"foreign_table" => "tx_mhsimplegallery_images",	
-				"foreign_table_where" => "AND tx_mhsimplegallery_images.pid=###STORAGE_PID### ORDER BY tx_mhsimplegallery_images.uid",	
+				"foreign_table" => "tx_mhbranchenbuch_bundesland",	
+				"foreign_table_where" => "ORDER BY tx_mhbranchenbuch_bundesland.name",	
 				"size" => 1,	
 				"minitems" => 0,
 				"maxitems" => 1,
 			)
 		),
-		"title" => Array (		
+		"name" => Array (		
 			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_comments.title",		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_landkreis.name",		
 			"config" => Array (
 				"type" => "input",	
 				"size" => "30",
 			)
 		),
-		"text" => Array (		
-			"exclude" => 1,		
-			"label" => "LLL:EXT:mh_simplegallery/locallang_db.xml:tx_mhsimplegallery_comments.text",		
+		"detail" => Array (
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.detail",		
 			"config" => Array (
 				"type" => "text",
 				"cols" => "30",
@@ -344,12 +586,108 @@ $TCA["tx_mhsimplegallery_comments"] = array (
 				),
 			)
 		),
+		"map_lat" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lat",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
+		"map_lng" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lng",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
 	),
 	"types" => array (
-		"0" => array("showitem" => "hidden;;1;;1-1-1, image, title;;;;2-2-2, text;;;richtext[paste|bold|italic|underline|formatblock|class|left|center|right|orderedlist|unorderedlist|outdent|indent|link|image]:rte_transform[mode=ts];3-3-3")
+		"0" => array("showitem" => "hidden;;1;;1-1-1, bundesland, name, detail;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/mh_branchenbuch/rte/], map_lat, map_lng")
 	),
 	"palettes" => array (
-		"1" => array("showitem" => "starttime, endtime")
+		"1" => array("showitem" => "")
+	)
+);
+
+$TCA["tx_mhbranchenbuch_ort"] = array (
+	"ctrl" => $TCA["tx_mhbranchenbuch_ort"]["ctrl"],
+	"interface" => array (
+		"showRecordFieldList" => "hidden,landkreis,name,detail,map_lat,map_lng"
+	),
+	"feInterface" => $TCA["tx_mhbranchenbuch_ort"]["feInterface"],
+	"columns" => array (
+		'hidden' => array (		
+			'exclude' => 1,
+			'label'   => 'LLL:EXT:lang/locallang_general.xml:LGL.hidden',
+			'config'  => array (
+				'type'    => 'check',
+				'default' => '0'
+			)
+		),
+		"landkreis" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_landkreis.name",		
+			"config" => Array (
+				"type" => "select",	
+				"foreign_table" => "tx_mhbranchenbuch_landkreis",	
+				"foreign_table_where" => "ORDER BY tx_mhbranchenbuch_landkreis.name",	
+				"size" => 1,	
+				"minitems" => 0,
+				"maxitems" => 1,
+			)
+		),
+		"name" => Array (		
+			"exclude" => 1,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_ort.name",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",
+			)
+		),
+		"detail" => Array (
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.detail",		
+			"config" => Array (
+				"type" => "text",
+				"cols" => "30",
+				"rows" => "5",
+				"wizards" => Array(
+					"_PADDING" => 2,
+					"RTE" => array(
+						"notNewRecords" => 1,
+						"RTEonly" => 1,
+						"type" => "script",
+						"title" => "Full screen Rich Text Editing|Formatteret redigering i hele vinduet",
+						"icon" => "wizard_rte2.gif",
+						"script" => "wizard_rte.php",
+					),
+				),
+			)
+		),
+		"map_lat" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lat",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
+		"map_lng" => Array (		
+			"exclude" => 0,		
+			"label" => "LLL:EXT:mh_branchenbuch/locallang_db.xml:tx_mhbranchenbuch_firmen.map_lng",		
+			"config" => Array (
+				"type" => "input",	
+				"size" => "30",	
+			)
+		),
+	),
+	"types" => array (
+		"0" => array("showitem" => "hidden;;1;;1-1-1, landkreis, name, detail;;;richtext[cut|copy|paste|formatblock|textcolor|bold|italic|underline|left|center|right|orderedlist|unorderedlist|outdent|indent|link|table|image|line|chMode]:rte_transform[mode=ts_css|imgpath=uploads/mh_branchenbuch/rte/], map_lat, map_lng")
+	),
+	"palettes" => array (
+		"1" => array("showitem" => "")
 	)
 );
 ?>
