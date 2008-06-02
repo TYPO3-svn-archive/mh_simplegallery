@@ -1,0 +1,177 @@
+plugin.tx_mhsimplegallery_pi1 {
+
+  ######################
+  # IMPORTANT SETTINGS #
+  ######################
+  
+  // Mailadress of the admin
+  admin                     = 
+  
+  // Path to template
+  templateFile              = EXT:mh_simplegallery/res/template.html
+  
+  // Page-ID for the single-view
+  single_pid                = 17
+  
+  // Page-ID for the list-view
+  list_pid                  = 6
+  
+  // ID for the group who can delete and edit picture
+  admin_group               = 
+  
+  // Page-ID for the search
+  search_pid                =
+  
+  noTopImage                = EXT:mh_simplegallery/res/noTopImage.jpg
+  
+  topImageMaxWidth          = 200
+  topImageMaxHeight         = 150
+  topImageParams            = class="mhsimplegallery_topImage"
+  
+  
+  latestImageLimit          = 3
+  latestImageMaxWidth       = 64
+  latestImageMaxHeight      = 64
+  latestImageParams         = class="mhsimplegallery_latestImage"
+  
+  link_to_gallery.wrap      = |
+  
+  back_to_gallery           = Zur&uuml;ck zur &Uuml;bersicht
+  back_to_gallery.wrap      = |
+  
+  dateConf                  = d. M Y
+  
+  listProportional          = 1
+  
+  anonymous                 = Unbekannt
+  
+  sort_spacer               = &nbsp;-&nbsp;
+  sort_spacer2              = &nbsp;@&nbsp;
+  sort_asc                  = ASC
+  sort_desc                 = DESC
+  sort_crdate               = Erstellungsdatum
+  sort_title                = Titel
+  sort_comments             = Kommentare
+  sort_hits                 = Hits
+  sort_rating               = Bewertung
+  
+  listImageLimit            = 10
+  listImageMaxWidth         = 200
+  listImageMaxHeight        = 150
+  listImageParams           =
+  
+  singleProportional        = 1
+  singleImageMaxWidth       = 600
+  singleImageMaxHeight      =
+  singleImageParams         = class="mhsimplegallery_singleImage"
+  
+  error_noLatestImages      = <span style="font-size:0.8em;">Keine Bilder gefunden</span>
+  error_noImage             = <span style="font-size:0.8em;">Kein Bild unter dieser ID gefunden</span>
+
+  // 1 = user must be registered to upload a image
+  addPicture_register       = 0
+  
+  addPicture_maxHeight      = 1000
+  addPicture_maxWidth       = 1000
+  addPicture_maxSize        = 2000
+  
+  addPicture_hidden         = 0
+  
+  error_addPicture_register = Du musst registriert und eingeloggt sein um Bilder hinzuzufügen
+  
+  listCommentsLimit         = 5
+  
+  listCommentsOrderby       = crdate ASC
+  
+  error_commentAdd          = Sie haben nicht alle Felder korrekt ausgef&uuml;llt
+  error_commentAdd.wrap     = <p style="font-weight:bold;color:red;">|</p>
+  
+  ######################
+  # PAGEBROWSER        #
+  ######################
+  
+  // The max number of pages to include in the browse bar
+  maxPages                  = 4
+  
+  // this var switches the display of the pagelinks from pagenumbers to ranges 
+  // f.e.: 1-5 6-10 11-15... instead of 1 2 3...
+  showRange                 = 0
+  
+  // 1 = "<< First" and "LAST >>" will be shown and point to the first or last page.
+  showFirstLast             = 0
+  
+  showResultCount           = 0
+  
+  // 1 = the active (current) page should be displayed as pure text 
+  // 0 = the active (current) page should be displayed as a link to itself
+  dontLinkActivePage        = 1
+  
+  // This defines were the current page is shown in the list of pages in the Pagebrowser.
+  // If this var is an integer it will be interpreted as position in the list of pages. 
+  // If its value is the keyword "center" the current page will be shown in the middle of the pagelist.
+  pagefloat                 = center
+      
+  // How many results to show 
+  resultsPerPage            = 10
+  
+  _CSS_DEFAULT_STYLE  {
+    dl.mhsimplegallery_listCategories   { margin:10px; padding:1px; width:215px; float:left; border:1px solid #ddd; }
+    dl.mhsimplegallery_listImages       { width:210px; margin:10px; padding:5px; float:left; background:white url(../../../typo3conf/ext/mh_simplegallery/res/loading.gif) no-repeat center; }
+    
+    .mhsimplegallery_header         { font-weight:bold; padding:4px; font-size:0.8em; }
+    .mhsimplegallery_center         { text-align:center; }
+    .mhsimplegallery_listImage      { text-align:center; }
+    
+    .mhsimplegallery_listImage img  { border:2px solid #666; padding:1px; }
+    
+    .mhsimplegallery_listImage img:hover { border:2px solid #ddd; padding:1px; }
+    
+    
+    
+    .mhsimplegallery_topImage       { margin:1px; }
+    .mhsimplegallery_latestImage    { margin:1px; padding:1px; border:1px solid #ddd; }
+    .mhsimplegallery_catHeader      { background-color:#f5f5f5; color:#333; padding:5px; margin:1px; border-bottom:1px solid #ddd;  }
+    .mhsimplegallery_text           { padding:4px; font-size:0.8em; }
+    .mhsimplegallery_listName a     {
+      font-weight:bold;
+      text-decoration:none;
+      color:black;
+      font-weight:0.8em;
+    }
+    
+    .mhsimplegallery_linkToGallery { 
+      border-top:1px solid #ddd; 
+      background-color:#f5f5f5;
+      padding:5px;
+      margin-top:3px;
+    }
+    
+    .mhsimplegallery_rating { position:relative; top:5px; }
+    .mhsimplegallery_linkToGallery a { font-size:0.8em; color:black; text-decoration:none;  }
+    
+    .mhsimplegallery_misc { color:#666; }
+    .mhsimplegallery_desc { background-color:white; border:1px solid #ddd; padding:5px; }
+    
+    
+    .mhsimplegallery_listName,
+    .mhsimplegallery_desc,
+    .mhsimplegallery_misc { margin:5px; line-height:15px; font-size:0.8em; }
+    
+    .mhsimplegallery_singleImage      { border:10px solid #666; margin:1px; padding:3px; }
+    .mhsimplegallery_singleImageDesc  { padding:5px; font-size:0.8em; }
+    .mhsimplegallery_singleImageInfo  { text-align:center; font-size:0.8em; padding:5px; border:1px solid #ddd; margin:5px; background-color:#f5f5f5; }
+    .mhsimplegallery_singleImageInfo2 { font-size:0.8em; padding:5px; margin:5px; }
+  }
+}
+
+
+plugin.tx_mhsimplegallery_pi1._LOCAL_LANG.de {
+  pi_list_browseresults_prev = < Zur&uuml;ck
+  pi_list_browseresults_page = Seite
+  pi_list_browseresults_next = N&auml;chste >
+  pi_list_browseresults_first = &lt;&lt; Erste
+  pi_list_browseresults_last = Letzte &gt;&gt;
+  pi_list_browseresults_displays = %s bis %s Eintr&auml;ge von insgesammt %s
+  pi_list_browseresults_displays_advanced = Von ###FROM### bis ###TO### Eintr&auml;ge von insgesammt ###OUT_OF###
+  pi_list_browseresults_to = zu
+}

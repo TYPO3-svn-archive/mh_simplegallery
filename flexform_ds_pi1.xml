@@ -1,0 +1,99 @@
+<T3DataStructure>
+ <meta>
+ <langDisable>1</langDisable>
+ </meta>
+ <sheets>
+  <sDEF>
+   <ROOT>
+    <TCEforms>
+     <sheetTitle>LLL:EXT:mh_simplegallery/locallang_db.php:tt_content.pi_flexform.sheet_general</sheetTitle>
+    </TCEforms>
+    <type>array</type>
+     <el>
+     
+      <what_to_display>
+      	<TCEforms>
+      		<label>LLL:EXT:mh_simplegallery/locallang_db.php:tt_content.pi_flexform.what_to_display</label>
+      		<config>
+      			<type>select</type>
+      			<items type="array">		
+      			<numIndex index="0" type="array">
+      				<numIndex index="0">LIST</numIndex>
+      				<numIndex index="1">LIST</numIndex>
+      			</numIndex>
+      			<numIndex index="1" type="array">
+      				<numIndex index="0">ADD</numIndex>
+      				<numIndex index="1">ADD</numIndex>
+      			</numIndex>
+      			<numIndex index="2" type="array">
+      				<numIndex index="0">COMMENTS</numIndex>
+      				<numIndex index="1">COMMENTS</numIndex>
+      			</numIndex>
+      			<numIndex index="3" type="array">
+      				<numIndex index="0">SINGLE</numIndex>
+      				<numIndex index="1">SINGLE</numIndex>
+      			</numIndex>
+      			<numIndex index="4" type="array">
+      				<numIndex index="0">EDIT</numIndex>
+      				<numIndex index="1">EDIT</numIndex>
+      			</numIndex>
+      			</items>
+      			<maxitems>100</maxitems>
+      			<size>6</size>
+      			<selectedListStyle>width:150px</selectedListStyle>
+      			<itemListStyle>width:150px</itemListStyle>
+      		</config>
+      	</TCEforms>
+      </what_to_display>
+      
+      <display_categories>
+       <TCEforms>
+        <label>LLL:EXT:mh_simplegallery/locallang_db.php:tt_content.pi_flexform.category_selection</label>
+				<config>
+          <type>select</type>
+          <foreign_table>tx_mhsimplegallery_categories</foreign_table>
+          <foreign_table_where>ORDER BY name</foreign_table_where>
+          <size>10</size>
+          <maxitems>100</maxitems>
+          <selectedListStyle>width:150px</selectedListStyle>
+      		<itemListStyle>width:150px</itemListStyle>
+        </config>
+       </TCEforms>
+      </display_categories>
+      
+			<template_file>
+				<TCEforms>
+					<label>LLL:EXT:mh_simplegallery/locallang_db.php:tt_content.pi_flexform.template_file</label>
+					<config>
+						<type>group</type>
+						<internal_type>file</internal_type>
+						<allowed>tmpl,html,htm</allowed>
+						<max_size>500</max_size>
+						<uploadfolder>uploads/tx_mhsimplegallery/</uploadfolder>
+						<minitems>0</minitems>
+						<maxitems>1</maxitems>
+						<size>1</size>
+						<selectedListStyle>Width:180px</selectedListStyle>
+					</config>
+				</TCEforms>
+			</template_file>
+      
+      <single_pid>
+        <TCEforms>
+          <label>LLL:EXT:mh_simplegallery/locallang_db.php:tt_content.pi_flexform.single_pid</label>
+          <config>
+            <type>input</type>
+            <eval>num</eval>
+            <size>2</size>
+          </config>
+        </TCEforms>
+      </single_pid>
+        
+     </el>
+    </ROOT>
+   </sDEF>
+   
+     
+     
+  </sheets>
+</T3DataStructure>
